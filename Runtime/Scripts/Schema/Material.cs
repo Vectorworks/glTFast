@@ -98,7 +98,7 @@ namespace GLTFast.Schema {
         /// using the normal painting operation (i.e. the Porter and Duff over operator).
         /// </summary>
         [SerializeField]
-        string alphaMode;
+        public string alphaMode;
 
         AlphaMode? _alphaModeEnum;
         public AlphaMode alphaModeEnum {

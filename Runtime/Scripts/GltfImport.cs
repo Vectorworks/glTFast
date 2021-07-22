@@ -191,12 +191,12 @@ namespace GLTFast {
         /// </summary>
 
         /// Main glTF data structure
-        Root gltfRoot;
+        public Root gltfRoot;
         UnityEngine.Material[] materials;
         List<UnityEngine.Object> resources;
 
-        Primitive[] primitives;
-        int[] meshPrimitiveIndex;
+        public Primitive[] primitives;
+        public int[] meshPrimitiveIndex;
         Matrix4x4[][] skinsInverseBindMatrices;
 #if UNITY_ANIMATION
         AnimationClip[] animationClips;
