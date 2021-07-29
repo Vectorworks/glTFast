@@ -64,11 +64,18 @@ namespace GLTFast.Schema {
         /// </summary>
         public int camera = -1;
 
+        public Extras extras;
+
         public NodeExtensions extensions;
     }
     
     [System.Serializable]
     public class NodeExtensions {
         public MeshGpuInstancing EXT_mesh_gpu_instancing;
+    }
+
+    [System.Serializable]
+    public class Extras {
+        public uint tdType;
     }
 }
