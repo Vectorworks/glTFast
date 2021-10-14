@@ -89,8 +89,9 @@ namespace GLTFast.Schema {
             if ((obj == null) || ! this.GetType().Equals(obj.GetType())) {
                 return false;
             }
-            var b = (MeshPrimitive) obj; 
-            return attributes.Equals(b.attributes) && targets==null || targets.Equals(b.targets);
+            var b = (MeshPrimitive) obj;
+ 
+            return attributes.Equals(b.attributes) && (targets == null || targets.Equals(b.targets));
         }
 
         public override int GetHashCode()
