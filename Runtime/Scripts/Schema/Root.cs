@@ -22,6 +22,7 @@ namespace GLTFast.Schema {
     [System.Serializable]
     public class Root
     {
+        public Extras extras;
         /// <summary>
         /// Names of glTF extensions used somewhere in this asset.
         /// </summary>

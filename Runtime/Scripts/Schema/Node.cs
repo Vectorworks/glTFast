@@ -77,5 +77,17 @@ namespace GLTFast.Schema {
     [System.Serializable]
     public class Extras {
         public uint tdType;
+        public ClipCube clipCube;
+    }
+
+    [System.Serializable]
+    public class ClipCube {
+        public double[] matrix;
+        public double xMax;
+        public double xMin;
+        public double yMax;
+        public double yMin;
+        public double zMax;
+        public double zMin;
     }
 }
