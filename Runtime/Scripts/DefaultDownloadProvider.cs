@@ -52,6 +52,7 @@ namespace GLTFast.Loading {
         }
 
         protected void Init(Uri url) {
+            Debug.Log($"Init UnityWebRequest with a url: {url}");
             request = UnityWebRequest.Get(url);
             asynOperation = request.SendWebRequest();
         }
