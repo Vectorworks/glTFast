@@ -1443,6 +1443,7 @@ namespace GLTFast {
             imageReadable = null;
             imageGamma = null;
             glbBinChunk = null;
+            defaultDeferAgent = null;
         }
 
         void InstantiateSceneInternal( Root gltf, IInstantiator instantiator, int sceneId ) {
