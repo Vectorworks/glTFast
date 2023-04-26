@@ -18,6 +18,10 @@ using UnityEngine.Networking;
 using System.IO;
 
 namespace GLTFast.Loading {
+
+    /// <summary>
+    /// Default <see cref="IDownloadProvider"/> implementation
+    /// </summary>
     public class LocalFileProvider : IDownloadProvider {
         public async Task<IDownload> Request(Uri url)
         {
@@ -32,12 +36,13 @@ namespace GLTFast.Loading {
 
         public async Task<ITextureDownload> RequestTexture(Uri url, bool nonReadable)
         {
-            var req = new AwaitableTextureLoad(url, nonReadable);
-            while (req.MoveNext())
-            {
-                await Task.Yield();
-            }
+#if UNITY_WEBREQUEST_TEXTURE
+            var req = new AwaitableTextureDownload(url, nonReadable);
+            await req.WaitAsync();
             return req;
+#else
+            return null;
+#endif
         }
     }
 
@@ -92,7 +97,7 @@ namespace GLTFast.Loading {
                 return false;
             }
 
-            if (success)
+            if (Success)
                 return false;
 
             try
@@ -111,13 +116,15 @@ namespace GLTFast.Loading {
         }
 
         public void Reset() { }
-        public bool success => sumLoaded >= length;
-        public string error => readError;
-        public byte[] data => bytes;
-        public string text { get { return System.Text.Encoding.UTF8.GetString(bytes); } }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool? isBinary {
             get {
-                if (success)
+                if (Success)
                 {
                     return path.EndsWith(".glb");
                 }
@@ -127,6 +134,16 @@ namespace GLTFast.Loading {
                 }
             }
         }
+
+        public bool Success => sumLoaded >= length;
+
+        public string Error => readError;
+
+        public byte[] Data => bytes;
+
+        public string Text => System.Text.Encoding.UTF8.GetString(bytes);
+
+    public bool? IsBinary => throw new NotImplementedException();
     }
 
     public class AwaitableTextureLoad : AwaitableDownload, ITextureDownload {
@@ -146,13 +163,13 @@ namespace GLTFast.Loading {
 
         protected void Init(Uri url, bool nonReadable)
         {
-            request = CreateRequest(url, nonReadable);
-            asynOperation = request.SendWebRequest();
+            m_Request = CreateRequest(url, nonReadable);
+            m_AsyncOperation = m_Request.SendWebRequest();
         }
 
-        public Texture2D texture {
+        public Texture2D Texture {
             get {
-                return (request.downloadHandler as DownloadHandlerTexture).texture;
+                return (m_Request.downloadHandler as DownloadHandlerTexture).texture;
             }
         }
     }

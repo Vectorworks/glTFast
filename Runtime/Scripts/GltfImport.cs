@@ -208,7 +208,7 @@ namespace GLTFast
         bool m_DefaultMaterialPointsSupport;
 
         /// <summary>Main glTF data structure</summary>
-        Root m_GltfRoot;
+        public Root m_GltfRoot;
         UnityEngine.Material[] m_Materials;
         List<UnityEngine.Object> m_Resources;
 
@@ -219,8 +219,8 @@ namespace GLTFast
         /// </summary>
         string[] m_NodeNames;
 
-        Primitive[] m_Primitives;
-        int[] m_MeshPrimitiveIndex;
+        public Primitive[] m_Primitives;
+        public int[] m_MeshPrimitiveIndex;
         Matrix4x4[][] m_SkinsInverseBindMatrices;
 #if UNITY_ANIMATION
         AnimationClip[] m_AnimationClips;

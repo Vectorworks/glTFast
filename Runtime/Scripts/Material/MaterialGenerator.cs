@@ -228,7 +228,7 @@ namespace GLTFast.Materials
         protected ICodeLogger Logger { get; private set; }
 
         /// <inheritdoc />
-        public UnityEngine.Material GetDefaultMaterial(bool pointsSupport = false)
+        public virtual UnityEngine.Material GetDefaultMaterial(bool pointsSupport = false)
         {
             if (pointsSupport)
             {
