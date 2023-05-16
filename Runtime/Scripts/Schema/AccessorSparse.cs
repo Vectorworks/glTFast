@@ -1,4 +1,4 @@
-﻿// Copyright 2020-2021 Andreas Atteneder
+// Copyright 2020-2022 Andreas Atteneder
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,10 +13,15 @@
 // limitations under the License.
 //
 
-namespace GLTFast.Schema {
+namespace GLTFast.Schema
+{
 
+    /// <summary>
+    /// Sparse property of a glTF <seealso cref="Accessor"/>
+    /// </summary>
     [System.Serializable]
-    public class AccessorSparse {
+    public class AccessorSparse
+    {
         /// <summary>
         /// Number of entries stored in the sparse array.
         /// <minimum>1</minimum>
@@ -35,6 +40,23 @@ namespace GLTFast.Schema {
         /// the same `componentType` and number of components as the base accessor.
         /// </summary>
         public AccessorSparseValues values;
+
+        internal void GltfSerialize(JsonWriter writer)
+        {
+            writer.AddObject();
+            writer.AddProperty("count", count);
+            if (indices != null)
+            {
+                writer.AddProperty("indices");
+                indices.GltfSerialize(writer);
+            }
+            if (values != null)
+            {
+                writer.AddProperty("values");
+                values.GltfSerialize(writer);
+            }
+            writer.Close();
+        }
 
     }
 }

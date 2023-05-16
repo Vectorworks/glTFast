@@ -1,4 +1,4 @@
-﻿// Copyright 2020-2021 Andreas Atteneder
+// Copyright 2020-2022 Andreas Atteneder
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,9 +13,12 @@
 // limitations under the License.
 //
 
-#if KTX_UNITY
+#if KTX_UNITY_2_2_OR_NEWER || (!UNITY_2021_2_OR_NEWER && KTX_UNITY_1_3_OR_NEWER)
+#define KTX
+#endif
 
-using System.Collections;
+#if KTX
+
 using System.Threading.Tasks;
 using KtxUnity;
 using UnityEngine;
@@ -23,9 +26,9 @@ using UnityEngine;
 namespace GLTFast {
     abstract class KtxLoadContextBase {
         public int imageIndex;
-        protected KtxTexture ktxTexture;
-        
-        public abstract Task<TextureResult> LoadKtx(bool linear);
+        protected KtxTexture m_KtxTexture;
+
+        public abstract Task<TextureResult> LoadTexture2D(bool linear);
     }
 }
 #endif // KTX_UNITY
