@@ -1,4 +1,4 @@
-﻿// Copyright 2020-2021 Andreas Atteneder
+// Copyright 2020-2022 Andreas Atteneder
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,10 +13,15 @@
 // limitations under the License.
 //
 
-namespace GLTFast.Schema {
+namespace GLTFast.Schema
+{
 
+    /// <summary>
+    /// Sparse indices property of a glTF <seealso cref="AccessorSparse"/>
+    /// </summary>
     [System.Serializable]
-    public class AccessorSparseIndices {
+    public class AccessorSparseIndices
+    {
         /// <summary>
         /// The index of the bufferView with sparse indices.
         /// Referenced bufferView can't have ARRAY_BUFFER or ELEMENT_ARRAY_BUFFER target.
@@ -35,6 +40,18 @@ namespace GLTFast.Schema {
         /// `5123` (UNSIGNED_SHORT)
         /// `5125` (UNSIGNED_INT)
         /// </summary>
-        public GLTFComponentType componentType;
+        public GltfComponentType componentType;
+
+        internal void GltfSerialize(JsonWriter writer)
+        {
+            writer.AddObject();
+            writer.AddProperty("bufferView", bufferView);
+            writer.AddProperty("componentType", componentType);
+            if (byteOffset >= 0)
+            {
+                writer.AddProperty("byteOffset", byteOffset);
+            }
+            writer.Close();
+        }
     }
 }

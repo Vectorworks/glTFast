@@ -1,4 +1,4 @@
-﻿// Copyright 2020-2021 Andreas Atteneder
+// Copyright 2020-2022 Andreas Atteneder
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,28 +13,38 @@
 // limitations under the License.
 //
 
-#if KTX_UNITY
+#if KTX_UNITY_2_2_OR_NEWER || (!UNITY_2021_2_OR_NEWER && KTX_UNITY_1_3_OR_NEWER)
+#define KTX
+#endif
+
+#if KTX
 
 using System.Threading.Tasks;
 using KtxUnity;
-using Unity.Collections;
 
 namespace GLTFast {
     class KtxLoadContext : KtxLoadContextBase {
-        byte[] data;
+        byte[] m_Data;
 
         public KtxLoadContext(int index,byte[] data) {
-            this.imageIndex = index;
-            this.data = data;
-            ktxTexture = new KtxTexture();
+            imageIndex = index;
+            this.m_Data = data;
+            m_KtxTexture = new KtxTexture();
         }
 
-        public override async Task<TextureResult> LoadKtx(bool linear) {
-            var slice = new NativeArray<byte>(data,KtxNativeInstance.defaultAllocator);
-            var result = await ktxTexture.LoadBytesRoutine(slice,linear);
-            slice.Dispose();
-            data = null;
-            return result;
+        public override async Task<TextureResult> LoadTexture2D(bool linear) {
+            using (var array = new ManagedNativeArray(m_Data)) {
+
+                var errorCode = m_KtxTexture.Open(array.nativeArray);
+                if (errorCode != ErrorCode.Success) {
+                    return new TextureResult(errorCode);
+                }
+
+                var result = await m_KtxTexture.LoadTexture2D(linear);
+
+                m_KtxTexture.Dispose();
+                return result;
+            }
         }
     }
 }
