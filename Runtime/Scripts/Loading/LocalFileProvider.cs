@@ -115,11 +115,21 @@ namespace GLTFast.Loading {
             }
         }
 
-        public void Reset() { }
+        public void Reset()
+        {
+            fileStream.Dispose();
+            fileStream = null;
+            path = String.Empty;
+            length = 0;
+            sumLoaded = 0;
+            bytes = null;
+            readError = null;
+        }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            fileStream.Dispose();
+            fileStream = null;
         }
 
         public bool? isBinary {
@@ -143,7 +153,7 @@ namespace GLTFast.Loading {
 
         public string Text => System.Text.Encoding.UTF8.GetString(bytes);
 
-    public bool? IsBinary => throw new NotImplementedException();
+        public bool? IsBinary => isBinary;
     }
 
     public class AwaitableTextureLoad : AwaitableDownload, ITextureDownload {
