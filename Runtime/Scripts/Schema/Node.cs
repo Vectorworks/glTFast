@@ -169,8 +169,7 @@ namespace GLTFast.Schema
     [System.Serializable]
     public class Extras {
         public uint tdType;
-        public int objectClassId = -1;
-        public string parentChainClassIds = string.Empty;
+        public uint[] classIds;
         public ClipCube clipCube;
     }
 
