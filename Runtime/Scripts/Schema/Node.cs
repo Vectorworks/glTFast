@@ -169,6 +169,7 @@ namespace GLTFast.Schema
     [System.Serializable]
     public class Extras {
         public uint tdType;
+        public uint[] classIds;
         public ClipCube clipCube;
     }
 
