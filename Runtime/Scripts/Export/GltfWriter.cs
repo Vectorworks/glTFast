@@ -276,7 +276,7 @@ namespace GLTFast.Export
                 case LightType.Point:
                     light.SetLightType(LightPunctual.Type.Point);
                     break;
-                case LightType.Area:
+                case LightType.Rectangle:
                 case LightType.Disc:
                 default:
                     light.SetLightType(LightPunctual.Type.Spot);
